@@ -1,21 +1,99 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer utilities {
+    .main-div {
+      @apply w-full max-w-[426px]
+    }
+  
+    .nav-main {
+      @apply w-[46px] lg:w-[53px] flex flex-col justify-between items-center gap-1
+    }
+  
+    .nav-sub {
+      @apply w-[34px] h-[34px] flex justify-center items-center
+    }
+  
+    .nav-text {
+      @apply text-white text-[13px] pop font-bold text-center uppercase
+    }
+  
+    .text-8 {
+      @apply text-[8px]
+    }
+  
+    .text-10 {
+      @apply text-[10px]
+    }
+  
+    .text-11 {
+      @apply text-[11px]
+    }
+  
+    .text-12 {
+      @apply text-xs
+    }
+  
+    .text-14 {
+      @apply text-sm
+    }
+  
+    .text-16 {
+      @apply text-base
+    }
+  
+    .text-18 {
+      @apply text-lg
+    }
+  
+    .text-20 {
+      @apply text-xl
+    }
+  
+    .text-22 {
+      @apply text-[22px]
+    }
+  
+    .text-24 {
+      @apply text-2xl
+    }
+  
+    .text-26 {
+      @apply text-[26px]
+    }
+  
+    .text-28 {
+      @apply text-[28px]
+    }
+    .anim1{
+      @apply  transition-all duration-100
+    }
+    .anim3{
+      @apply  transition-all duration-500
+    }
+    .anim5{
+      @apply  transition-all duration-700
+    }
+    .anim10{
+      @apply  transition-all duration-1000
+    }
+    .header-link {
+      @apply relative hover:text-purplelight cursor-pointer transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-purplelight before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-purplelight after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]
+    }
   }
+
+
+.slick-dots{
+  color: white;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scrollbar-hide{
+    scrollbar-width: none;
+  }
