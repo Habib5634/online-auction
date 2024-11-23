@@ -5,6 +5,7 @@ import ProfileInfo from './ProfileInfo'
 import UpdateInfo from './UpdateInfo'
 import MyProposals from './MyProposals'
 import MyProducts from './MyProducts'
+import AddNewProduct from './AddNewProduct'
 // import SubmittedApplications from './SubmittedApplications'
 
 const Profile = () => {
@@ -27,8 +28,9 @@ const Profile = () => {
                         <div className='flex flex-row md:flex-col overflow-x-auto scrollbar-hide w-full mx-auto justify-start  mt-6 items-center md:items-start px-6 gap-6'>
                             <button onClick={()=>handleActiveTab('profile')} className={` text-nowrap ${activeTab === 'profile'?'text-purple font-bold border-b text-20':'text-lightgray text-18'}`}>Profile</button>
                             <button onClick={()=>handleActiveTab('update')} className={` text-nowrap ${activeTab === 'update'?'text-purple font-bold border-b text-20':'text-lightgray text-18'}`}>Update Information</button>
-                            <button onClick={()=>handleActiveTab('submit')} className={` text-nowrap ${activeTab === 'submit'?'text-purple font-bold border-b text-20':'text-lightgray text-18'}`}>My Proposals</button>
+                            <button onClick={()=>handleActiveTab('submit')} className={` text-nowrap ${activeTab === 'submit'?'text-purple font-bold border-b text-20':'text-lightgray text-18'}`}>My Bids</button>
                             <button onClick={()=>handleActiveTab('products')} className={` text-nowrap ${activeTab === 'products'?'text-purple font-bold border-b text-20':'text-lightgray text-18'}`}>My Products</button>
+                            <button onClick={()=>handleActiveTab('new-product')} className={` text-nowrap ${activeTab === 'new-product'?'text-purple font-bold border-b text-20':'text-lightgray text-18'}`}>Add New Product</button>
                             <button className={` text-nowrap text-lightgray text-18`}>Logout</button>
 
                         </div>
@@ -39,6 +41,7 @@ const Profile = () => {
                 {activeTab === 'update'&& <UpdateInfo/>}
                 {activeTab === 'submit'&& <MyProposals/>}
                 {activeTab === 'products'&& <MyProducts/>}
+                {activeTab === 'new-product'&& <AddNewProduct/>}
 
                 </div>
                 

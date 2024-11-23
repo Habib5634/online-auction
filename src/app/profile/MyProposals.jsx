@@ -7,11 +7,11 @@ import ProposalDetailModal from "./ProposalDetaillModal";
 const MyProposals    = () => {
   // Dummy data
   const applications = [
-    { id: 1, jobTitle: "Frontend Developer", company: "TechCorp", date: "2024-11-01", status: "Accepted" },
-    { id: 2, jobTitle: "Backend Developer", company: "Innovatech", date: "2024-11-05", status: "Rejected" },
-    { id: 3, jobTitle: "UI/UX Designer", company: "Designify", date: "2024-11-10", status: "Pending" },
-    { id: 4, jobTitle: "QA Engineer", company: "QualityPro", date: "2024-11-12", status: "Accepted" },
-    { id: 5, jobTitle: "Project Manager", company: "ManageWell", date: "2024-11-15", status: "Pending" },
+    { id: 1,img:'/assets/car.png',price:'130,000',yourBid:'150,000', sellerName:'Ahsan', location:'Lahore, Punjab',sellerContact:'+92323 .....',sellerEmail:'seller@example.com', title: "car", company: "Suzuki", date: "2024-11-01", status: "Winner" },
+    { id: 2,img:'/assets/bike.png',price:'130,000',yourBid:'150,000', sellerName:'Ahsan', location:'Lahore, Punjab',sellerContact:'+92323 .....',sellerEmail:'seller@example.com', title: "Bike", company: "Yamaha", date: "2024-11-05", status: "Closed" },
+    { id: 3,img:'/assets/laptop.png',price:'130,000',yourBid:'150,000', sellerName:'Ahsan', location:'Lahore, Punjab',sellerContact:'+92323 .....',sellerEmail:'seller@example.com', title: "Laptop", company: "HP", date: "2024-11-10", status: "Running" },
+    { id: 4,img:'/assets/airpods.png',price:'130,000',yourBid:'150,000', sellerName:'Ahsan', location:'Lahore, Punjab',sellerContact:'+92323 .....',sellerEmail:'seller@example.com', title: "Airpods", company: "Ronins", date: "2024-11-12", status: "Winner" },
+    { id: 5,img:'/assets/chair.png',price:'130,000',yourBid:'150,000', sellerName:'Ahsan', location:'Lahore, Punjab',sellerContact:'+92323 .....',sellerEmail:'seller@example.com', title: "Chair", company: "No Company", date: "2024-11-15", status: "Running" },
   ];
   const [selectedApplication, setSelectedApplication] = useState(null); // State to hold clicked application details
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,23 +46,36 @@ const handleOpenConfirmationModal = ()=>{
       <table className="table-auto w-full border-collapse border border-darkgray">
         <thead className="bg-gray-200">
           <tr>
-            <th className="border border-darkgray px-4 py-2 text-left">Job Title</th>
+            <th className="border border-darkgray px-4 py-2 text-left">Image</th>
+            <th className="border border-darkgray px-4 py-2 text-left">Title</th>
             <th className="border border-darkgray px-4 py-2 text-left">Company</th>
-            <th className="border border-darkgray px-4 py-2 text-left">Date</th>
+            <th className="border border-darkgray px-4 py-2 text-left">Seller Name</th>
+            <th className="border border-darkgray px-4 py-2 text-left">Seller Contact</th>
+            <th className="border border-darkgray px-4 py-2 text-left">Seller Email</th>
+            <th className="border border-darkgray px-4 py-2 text-left">Auction Price</th>
+            <th className="border border-darkgray px-4 py-2 text-left">Your Bid</th>
             <th className="border border-darkgray px-4 py-2 text-left">Status</th>
           </tr>
         </thead>
         <tbody>
           {applications.map((app) => (
               <tr onClick={() => handleRowClick(app)} key={app.id} className="hover:bg-gray-100">
-              <td className="border border-darkgray px-4 py-2">{app.jobTitle}</td>
-              <td className="border border-darkgray px-4 py-2">{app.company}</td>
-              <td className="border border-darkgray px-4 py-2">{app.date}</td>
+                <td className="border border-darkgray px-4 py-2">
+                
+                <img src={app.img} alt={app.title} className="h-10 w-10" />
+                </td>
+              <td className="border border-darkgray text-nowrap overflow-hidden text-ellipsis px-4 py-2">{app.title}</td>
+              <td className="border border-darkgray text-nowrap overflow-hidden text-ellipsis px-4 py-2">{app.company}</td>
+              <td className="border border-darkgray text-nowrap overflow-hidden text-ellipsis px-4 py-2">{app.sellerName}</td>
+              <td className="border border-darkgray text-nowrap overflow-hidden text-ellipsis px-4 py-2">{app.sellerContact}</td>
+              <td className="border border-darkgray text-nowrap overflow-hidden text-ellipsis px-4 py-2">{app.sellerEmail}</td>
+              <td className="border border-darkgray text-nowrap overflow-hidden text-ellipsis px-4 py-2">{app.price}</td>
+              <td className="border border-darkgray text-nowrap overflow-hidden text-ellipsis px-4 py-2">{app.yourBid}</td>
               <td
                 className={`border border-darkgray px-4 py-2 ${
-                  app.status === "Accepted"
+                  app.status === "Winner"
                   ? "text-green font-bold"
-                  : app.status === "Rejected"
+                  : app.status === "Closed"
                     ? "text-red font-bold"
                     : "text-yellow font-bold"
                 }`}

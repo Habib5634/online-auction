@@ -29,7 +29,7 @@ const About = () => {
         },
     ]
     return (
-        <div id='about' className='bg-aboutbg bg-cover  px-6 md:px-10 py-32  w-full  overflow-hidden relative'>
+        <div id='about  ' className='bg-aboutbg bg-cover  px-6 md:px-10 py-32  w-full  overflow-hidden relative'>
             <div className="absolute inset-0 bg-black bg-opacity-50"></div>
             <div className=' max-w-[1440px] mx-auto w-full gap-5 relative z-[0.1]'>
                 <h1 className='text-[35px] md:text-[40px] text-center lg:text-[48px] xl:text-[60px] text-white font-medium mb-8 leading-tight'>Why choose Us</h1>

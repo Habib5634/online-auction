@@ -13,7 +13,7 @@ const router =useRouter()
     const handelShowSidebar = () => {
         setShowSidebar(!showSidebar)
     }
-    console.log(scrollDirection, scrollTrigger)
+   
     useScrollTrigger()
     // Scroll to a specific section
     // Store scroll position in state
