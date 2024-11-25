@@ -1,11 +1,12 @@
 'use client'
 import useScrollTrigger from '@/hooks/useScrollTrigger';
 import Link from 'next/link';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { FaBars, FaFacebookSquare, FaLinkedin } from "react-icons/fa";
 import { IoCloseCircleSharp, IoLogoWhatsapp } from "react-icons/io5";
 import { useRouter } from 'next/navigation';
+import ProfileMenu from './ProfileMenu';
 const Navbar = () => {
     const { scrollTrigger, scrollDirection } = useSelector((state) => state.scroll);
     const [showSidebar, setShowSidebar] = useState(false)
@@ -13,6 +14,15 @@ const router =useRouter()
     const handelShowSidebar = () => {
         setShowSidebar(!showSidebar)
     }
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const data = localStorage.getItem('user');
+        if (data) {
+            setUser(JSON.parse(data)); // Parse the JSON string into an object
+        }
+    }, []);
+    
    
     useScrollTrigger()
     // Scroll to a specific section
@@ -41,7 +51,7 @@ const router =useRouter()
                             <span className=' text-3xl md:text-4xl  font-bold leading-none  tracking-wide text-white capitalize   '>-Auction</span>
                         </div>
                     </Link>
-                    <div className={`hidden lg:flex items-center ${scrollTrigger > 1 ? 'gap-9' : 'xl:gap-10 lg:gap-8'} anim5`}>
+                    <div className={`hidden lg:flex items-center ${scrollTrigger > 1 ? 'gap-9' : 'xl:gap-10 lg:gap-8'} relative anim5`}>
                             <Link href={'/'}>
                             <button onClick={() => scrollToSection('home')} className='xl:text-18 lg:text-16 font-bold text-white header-link'>Home</button>
                             </Link>
@@ -49,9 +59,15 @@ const router =useRouter()
                             <button onClick={() => scrollToSection('about')} className='xl:text-18 lg:text-16 font-bold text-white header-link'>About</button>
                             <button onClick={() => scrollToSection('contact')} className='xl:text-18 lg:text-16 font-bold text-white header-link'>Contact</button>
                             <button onClick={() => scrollToSection('category')} className='xl:text-18 lg:text-16 font-bold text-white header-link'>Product</button>
+                            {user !== null ? (
+                            <>
+                            <ProfileMenu/>
+                            </>):(
                             <Link href={'/login'}>
-                            <button className={`${scrollTrigger > 1 ? 'px-3 md:px-5 py-2' : 'px-3 md:px-8 py-4 lg:py-3 lg:px-7'} anim5 rounded-lg text-center text-[15px] hover:bg-purplelight anim3 text-white font-bold uppercase bg-transparent border border-purplelight`}>Login/Register</button></Link>
-                        </div>
+
+                                <button className={`${scrollTrigger > 1 ? 'px-3 md:px-5 py-2' : 'px-3 md:px-8 py-4 lg:py-3 lg:px-7'} anim5 rounded-lg text-center text-[15px] hover:bg-purplelight anim3 text-white font-bold uppercase bg-transparent border border-purplelight`}>Login/Register</button></Link>
+                            )}
+                                </div>
                         <div className='flex lg:hidden items-center gap-2 '>
 
 

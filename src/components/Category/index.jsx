@@ -7,6 +7,7 @@ import Navbar from '../Navbar';
 import Footer from '../Footer';
 import { useCategories } from './useCategories';
 import ProductBidModal from './ProductBidModal';
+import { useRouter } from 'next/navigation';
 
 const products = [
     { id: 1, name: "Yamaha 2017", category: "Bikes", location: "Karachi", price: "RS. 45,00000", image: "/assets/bike.png" ,endTime: new Date().getTime() + 10 * 60 * 1000, },
@@ -28,7 +29,10 @@ const Category = () => {
         selectedProduct,
         handelCloseProductModal,
         handleSelectProduct,handleConfirmBid} = useCategories()
-    
+        const router = useRouter()
+const handleProductClick =()=>{
+  router.push('/product-detail')
+}
    
      
 
@@ -68,7 +72,7 @@ const Category = () => {
                         
                       <div key={i} className="p-4 h-full max-h-[460px] ">
                       <div className="p-4 shadow-shad min-h-full rounded-2xl relative">
-                        <div className='absolute -top-0 -left-0 bg-purple4 w-full max-w-[100px] rounded-tl-2xl gap-2 flex  items-center justify-center py-2'>
+                        <div onClick={handleProductClick} className='absolute -top-0 -left-0 bg-purple4 w-full max-w-[100px] rounded-tl-2xl gap-2 flex  items-center justify-center py-2'>
                             <h1 className='text-white text-12'>Ends in</h1>
                             <h3 className="text-white text-16 font-bold">
                             {timers[product.id] !== undefined
@@ -78,11 +82,12 @@ const Category = () => {
             
                         </div>
                         <img
+                        onClick={handleProductClick}
                           src={product.image}
                           alt={product.name}
                           className="h-[200px] object-cover w-full rounded-2xl"
                         />
-                        <div className="w-full flex justify-between items-center mt-4">
+                        <div onClick={handleProductClick} className="w-full flex justify-between items-center mt-4">
                           <h1 className="text-gray flex items-center gap-1">
                             <BiCategoryAlt />
                             {product.category}
@@ -92,8 +97,8 @@ const Category = () => {
                             {product.location}
                           </h1>
                         </div>
-                        <h1 className="text-20 mt-4 font-bold text-white">{product.name}</h1>
-                        <h1 className="text-14 font-semibold text-gray mt-4">
+                        <h1 onClick={handleProductClick} className="text-20 mt-4 font-bold text-white">{product.name}</h1>
+                        <h1 onClick={handleProductClick} className="text-14 font-semibold text-gray mt-4">
                           Price Starting From <span className="font-bold text-purplelight">{product.price}</span>
                         </h1>
                         <button onClick={()=>handleSelectProduct(product)} className="w-full py-2 text-center text-white border border-purplelight my-4 rounded-md hover:bg-purplelight anim3">

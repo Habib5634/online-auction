@@ -1,18 +1,31 @@
 'use client'
 import Navbar from '@/components/Navbar'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ProfileInfo from './ProfileInfo'
 import UpdateInfo from './UpdateInfo'
 import MyProposals from './MyProposals'
 import MyProducts from './MyProducts'
 import AddNewProduct from './AddNewProduct'
+import { useRouter } from 'next/navigation'
 // import SubmittedApplications from './SubmittedApplications'
 
 const Profile = () => {
     const [activeTab,setActiveTab] = useState('profile')
-
+    const [user, setUser] = useState(null);
+    const router = useRouter()
+    useEffect(() => {
+        const data = localStorage.getItem('user');
+        if (data) {
+            setUser(JSON.parse(data)); // Parse the JSON string into an object
+        }
+    }, []);
+    console.log(user)
     const handleActiveTab = (tab)=>{
         setActiveTab(tab)
+    }
+    const handleLogout = ()=>{
+        localStorage.removeItem('user')
+        router.push('/login')
     }
     return (
         <div className='bg-purpledark  h-screen overflow-hidden'>
@@ -29,9 +42,13 @@ const Profile = () => {
                             <button onClick={()=>handleActiveTab('profile')} className={` text-nowrap ${activeTab === 'profile'?'text-purple font-bold border-b text-20':'text-lightgray text-18'}`}>Profile</button>
                             <button onClick={()=>handleActiveTab('update')} className={` text-nowrap ${activeTab === 'update'?'text-purple font-bold border-b text-20':'text-lightgray text-18'}`}>Update Information</button>
                             <button onClick={()=>handleActiveTab('submit')} className={` text-nowrap ${activeTab === 'submit'?'text-purple font-bold border-b text-20':'text-lightgray text-18'}`}>My Bids</button>
+                            {user?.role === 'seller'&& (
+                                <>
                             <button onClick={()=>handleActiveTab('products')} className={` text-nowrap ${activeTab === 'products'?'text-purple font-bold border-b text-20':'text-lightgray text-18'}`}>My Products</button>
                             <button onClick={()=>handleActiveTab('new-product')} className={` text-nowrap ${activeTab === 'new-product'?'text-purple font-bold border-b text-20':'text-lightgray text-18'}`}>Add New Product</button>
-                            <button className={` text-nowrap text-lightgray text-18`}>Logout</button>
+                                </>
+                            )}
+                            <button onClick={handleLogout} className={` text-nowrap text-lightgray text-18`}>Logout</button>
 
                         </div>
 

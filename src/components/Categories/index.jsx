@@ -1,4 +1,5 @@
 'use client'
+import { useRouter } from 'next/navigation';
 import React from 'react'
 import { FaMobileAlt,FaTshirt,FaHome,FaRunning ,FaCar,FaBook,FaHeartbeat,FaCouch,FaUtensils,FaPuzzlePiece} from "react-icons/fa";
 import Slider from 'react-slick';
@@ -107,8 +108,10 @@ const Categories = () => {
           },
         ],
       };
-     
-
+      const router = useRouter()
+const handleCategoryClick =()=>{
+  router.push('/category')
+}
 
     return (
         <div id='category' className='bg-purpledark  px-6 md:px-10 py-32 xl:py-40 w-full relative overflow-hidden'>
@@ -120,7 +123,7 @@ const Categories = () => {
                     
         {data.map((data) => (
             
-          <div key={data.id} className="p-4 h-full max-h-[460px] ">
+          <div onClick={handleCategoryClick} key={data.id} className="p-4 h-full max-h-[460px] ">
           <div className="p-4 flex flex-col items-center border  border-purplelight group hover:bg-purple anim3 cursor-pointer rounded-2xl ">
             
             {data.icon}

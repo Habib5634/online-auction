@@ -22,6 +22,11 @@ const Login = () => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [fullName, setFullName] = useState("")
+    const [address, setAddress] = useState("")
+    const [contact, setContact] = useState("")
+    const [gender, setGender] = useState('')
+    const [role, setRole] = useState('')
     const [emailCode, setEmailCode] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
@@ -60,6 +65,14 @@ const Login = () => {
             switch (mode) {
                 case MODE.REGISTER:
                     //   response = await axios.post(`${BASE_URL}/auth/register`, { username, email, password });
+                    console.log(username, fullName, role, email)
+                    const data={
+                        username,
+                        fullName,
+                        email,
+                        role
+                    }
+                    localStorage.setItem('user',JSON.stringify(data))
                     break;
                 case MODE.LOGIN:
                     //   response = await axios.post(`${BASE_URL}/auth/login`, { email, password });
@@ -91,8 +104,8 @@ const Login = () => {
 
 
     return (
-        <div className=' max-w-[1440px] mx-auto w-full gap-5 relative z-[0.1] flex justify-center items-center h-full '>
-            <form className="flex flex-col gap-8 bg-bluegray bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-50 rounded-2xl  w-full max-w-2xl p-6"
+        <div className=' max-w-[1440px] mx-auto w-full mt-[100px] gap-5 relative z-[0.1] flex justify-center   '>
+            <form className="flex flex-col gap-8 overflow-y-auto h-full max-h-[calc(100vh-150px)] bg-bluegray bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-50 rounded-2xl  w-full max-w-2xl p-6"
                 onSubmit={handleSubmit}
             >
                 <h1 className="text-3xl font-semibold text-purple">{formTitle}</h1>
@@ -113,17 +126,17 @@ const Login = () => {
                                 <label className="text-18 text-purpledark ">Full Name</label>
                                 <input
                                     type="text"
-                                    name="username"
+                                    name="fullName"
                                     placeholder="john"
                                     className="ring-2 ring-purple rounded-md p-4"
-                                    onChange={(e) => setUsername(e.target.value)}
+                                    onChange={(e) => setFullName(e.target.value)}
                                 />
                             </div>
                         </>
                     ) : null}
 
                     {mode !== MODE.EMAIL_VERIFICATION ? (
-                        <div className="flex flex-col gap-2">
+                        <div className={`${mode === MODE.LOGIN ? 'col-span-2' : ''} flex flex-col gap-2`}>
                             <label className="text-18 text-purpledark ">E-mail</label>
                             <input
                                 type="email"
@@ -148,7 +161,7 @@ const Login = () => {
 
                     {mode === MODE.LOGIN || mode === MODE.REGISTER ? (
                         <>
-                            <div className="flex flex-col gap-2">
+                            <div className={`${mode === MODE.LOGIN ? 'col-span-2' : ''} flex flex-col gap-2`}>
                                 <label className="text-18 text-purpledark ">Password</label>
                                 <input
                                     type="password"
@@ -166,55 +179,59 @@ const Login = () => {
                             <div className="flex flex-col gap-2">
                                 <label className="text-18 text-purpledark ">Address</label>
                                 <input
-                                    type="password"
-                                    name="password"
-                                    placeholder="Enter your password"
+                                    type="text"
+                                    name="address"
+                                    placeholder="Enter your Address"
                                     className="ring-2 ring-purple rounded-md p-4"
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    onChange={(e) => setAddress(e.target.value)}
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
                                 <label className="text-18 text-purpledark ">Contact</label>
                                 <input
-                                    type="password"
-                                    name="password"
-                                    placeholder="Enter your password"
+                                    type="text"
+                                    name="contact"
+                                    placeholder="Enter your Contact"
                                     className="ring-2 ring-purple rounded-md p-4"
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    onChange={(e) => setContact(e.target.value)}
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
-                                <label className="text-18 text-purpledark ">Gender</label>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    placeholder="Enter your password"
+                                <label className="text-18 text-purpledark">Gender</label>
+                                <select
+                                    name="gender"
                                     className="ring-2 ring-purple rounded-md p-4"
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
+                                    onChange={(e) => setGender(e.target.value)}
+                                >
+                                    <option value="" disabled selected>
+                                        Select your gender
+                                    </option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
                             </div>
                             <div className="flex flex-col gap-2">
-                                <label className="text-18 text-purpledark ">Role</label>
-                                <div className='flex gap-5 items-center'>
-
-                                    <div className='flex gap-4 py-4'>
+                                <label className="text-18 text-purpledark">Role</label>
+                                <div className="flex gap-5 items-center">
+                                    <div className="flex gap-4 py-4">
                                         <label htmlFor="seller">Seller</label>
                                         <input
                                             type="radio"
-                                            name="seller"
-
+                                            name="role"
+                                            value="seller" // Set value explicitly
                                             className=""
-                                            onChange={(e) => setPassword(e.target.value)}
+                                            onChange={(e) => setRole(e.target.value)} // This will now set the role to "seller"
                                         />
                                     </div>
-                                    <div className='flex gap-4 py-4'>
+                                    <div className="flex gap-4 py-4">
                                         <label htmlFor="buyer">Buyer</label>
                                         <input
                                             type="radio"
-                                            name="buyer"
-
+                                            name="role"
+                                            value="buyer" // Set value explicitly
                                             className=""
-                                            onChange={(e) => setPassword(e.target.value)}
+                                            onChange={(e) => setRole(e.target.value)} // This will now set the role to "buyer"
                                         />
                                     </div>
                                 </div>
