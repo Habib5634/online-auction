@@ -2,26 +2,29 @@
 import useScrollTrigger from '@/hooks/useScrollTrigger';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaBars, FaFacebookSquare, FaLinkedin } from "react-icons/fa";
 import { IoCloseCircleSharp, IoLogoWhatsapp } from "react-icons/io5";
 import { useRouter } from 'next/navigation';
 import ProfileMenu from './ProfileMenu';
+import { fetchUserData } from '@/Store/Actions/userActions';
 const Navbar = () => {
     const { scrollTrigger, scrollDirection } = useSelector((state) => state.scroll);
     const [showSidebar, setShowSidebar] = useState(false)
 const router =useRouter()
+const { isAuthenticated } = useSelector((state) => state.userData)
+const dispatch = useDispatch()
+useEffect(() => {
+    dispatch(fetchUserData())
+}, [dispatch])
+
+
     const handelShowSidebar = () => {
         setShowSidebar(!showSidebar)
     }
-    const [user, setUser] = useState(null);
+    
 
-    useEffect(() => {
-        const data = localStorage.getItem('user');
-        if (data) {
-            setUser(JSON.parse(data)); // Parse the JSON string into an object
-        }
-    }, []);
+    
     
    
     useScrollTrigger()
@@ -59,7 +62,7 @@ const router =useRouter()
                             <button onClick={() => scrollToSection('about')} className='xl:text-18 lg:text-16 font-bold text-white header-link'>About</button>
                             <button onClick={() => scrollToSection('contact')} className='xl:text-18 lg:text-16 font-bold text-white header-link'>Contact</button>
                             <button onClick={() => scrollToSection('category')} className='xl:text-18 lg:text-16 font-bold text-white header-link'>Product</button>
-                            {user !== null ? (
+                            {isAuthenticated ? (
                             <>
                             <ProfileMenu/>
                             </>):(

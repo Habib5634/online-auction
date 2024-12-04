@@ -1,9 +1,11 @@
 'use client'
 
 
-// import axios from 'axios';
+import { API_URL } from '@/utils/apiUrl';
+import axios from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react'
+import toast from 'react-hot-toast';
 
 
 
@@ -19,18 +21,31 @@ const Login = () => {
     const [mode, setMode] = useState(MODE.LOGIN);
 
 
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [fullName, setFullName] = useState("")
-    const [address, setAddress] = useState("")
-    const [contact, setContact] = useState("")
-    const [gender, setGender] = useState('')
-    const [role, setRole] = useState('')
-    const [emailCode, setEmailCode] = useState("");
+    // const [username, setUsername] = useState("");
+    // const [email, setEmail] = useState("");
+    // const [password, setPassword] = useState("");
+    // const [fullName, setFullName] = useState("")
+    // const [address, setAddress] = useState("")
+    // const [contact, setContact] = useState("")
+    // const [gender, setGender] = useState('')
+    // const [role, setRole] = useState('')
+    // const [emailCode, setEmailCode] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
+    const [formData, setFormData] = useState({
+        userName: "",
+        email: "",
+        password: "",
+        emailCode: "",
+        fullName: "",
+        address: "",
+        gender: "",
+        contact: "",
+        emailCode:"",
+        userType: "buyer",
+        answer: "",
+    });
 
     const pathname = usePathname()
     // if (isLoggedIn) {
@@ -55,6 +70,12 @@ const Login = () => {
                     : "Verify";
 
 
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true)
@@ -64,18 +85,26 @@ const Login = () => {
             let response;
             switch (mode) {
                 case MODE.REGISTER:
-                    //   response = await axios.post(`${BASE_URL}/auth/register`, { username, email, password });
-                    console.log(username, fullName, role, email)
-                    const data={
-                        username,
-                        fullName,
-                        email,
-                        role
+                    response = await axios.post(`${API_URL}/auth/register`, formData);
+                    console.log(response)
+                    if(response.status === 201){
+                        toast.success("Registered Successfully")
+                        setMode(MODE.LOGIN)
+                        console.log("FormData Data:", formData);
+                    }else{
+                        toast.error("Something went wrong")
                     }
-                    localStorage.setItem('user',JSON.stringify(data))
                     break;
                 case MODE.LOGIN:
-                    //   response = await axios.post(`${BASE_URL}/auth/login`, { email, password });
+                    response = await axios.post(`${API_URL}/auth/login`, {email:formData.email,password:formData.password});
+                    console.log(response)
+                    if(response.status === 200){
+                        localStorage.setItem('token',response.data.token)
+                        toast.success("Login Successfully")
+                        router.push('/')
+                    }else{
+                        toast.error("Something went wrong")
+                    }
                     console.log(response)
                     localStorage.setItem("token", response.data.token)
                     break;
@@ -90,7 +119,7 @@ const Login = () => {
             }
 
             //   setMessage(response.data.message);
-            router.push('/'); // Redirect on success (example)
+            // router.push('/'); // Redirect on success (example)
         } catch (error) {
             setError(error.response?.data?.message || 'Something went wrong');
             console.log(error)
@@ -116,10 +145,11 @@ const Login = () => {
                                 <label className="text-18 text-purpledark ">Username</label>
                                 <input
                                     type="text"
-                                    name="username"
+                                    name="userName"
                                     placeholder="john"
+                                    value={formData?.userName}
                                     className="ring-2 ring-purple rounded-md p-4"
-                                    onChange={(e) => setUsername(e.target.value)}
+                                    onChange={handleChange}
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
@@ -128,8 +158,9 @@ const Login = () => {
                                     type="text"
                                     name="fullName"
                                     placeholder="john"
+                                    value={formData?.fullName}
                                     className="ring-2 ring-purple rounded-md p-4"
-                                    onChange={(e) => setFullName(e.target.value)}
+                                    onChange={handleChange}
                                 />
                             </div>
                         </>
@@ -142,8 +173,9 @@ const Login = () => {
                                 type="email"
                                 name="email"
                                 placeholder="john@gmail.com"
+                                value={formData?.email}
                                 className="ring-2 ring-purple rounded-md p-4"
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={handleChange}
                             />
                         </div>
                     ) : (
@@ -153,8 +185,9 @@ const Login = () => {
                                 type="text"
                                 name="emailCode"
                                 placeholder="Code"
+                                value={formData?.emailCode}
                                 className="ring-2 ring-purple rounded-md p-4"
-                                onChange={(e) => setEmailCode(e.target.value)}
+                                onChange={handleChange}
                             />
                         </div>
                     )}
@@ -168,7 +201,7 @@ const Login = () => {
                                     name="password"
                                     placeholder="Enter your password"
                                     className="ring-2 ring-purple rounded-md p-4"
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    onChange={handleChange}
                                 />
                             </div>
 
@@ -182,8 +215,9 @@ const Login = () => {
                                     type="text"
                                     name="address"
                                     placeholder="Enter your Address"
+                                    value={formData?.address}
                                     className="ring-2 ring-purple rounded-md p-4"
-                                    onChange={(e) => setAddress(e.target.value)}
+                                    onChange={handleChange}
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
@@ -192,8 +226,9 @@ const Login = () => {
                                     type="text"
                                     name="contact"
                                     placeholder="Enter your Contact"
+                                    value={formData?.contact}
                                     className="ring-2 ring-purple rounded-md p-4"
-                                    onChange={(e) => setContact(e.target.value)}
+                                    onChange={handleChange}
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
@@ -201,7 +236,8 @@ const Login = () => {
                                 <select
                                     name="gender"
                                     className="ring-2 ring-purple rounded-md p-4"
-                                    onChange={(e) => setGender(e.target.value)}
+                                    value={formData.gender}
+                                    onChange={handleChange}
                                 >
                                     <option value="" disabled selected>
                                         Select your gender
@@ -215,23 +251,25 @@ const Login = () => {
                                 <label className="text-18 text-purpledark">Role</label>
                                 <div className="flex gap-5 items-center">
                                     <div className="flex gap-4 py-4">
-                                        <label htmlFor="seller">Seller</label>
-                                        <input
-                                            type="radio"
-                                            name="role"
-                                            value="seller" // Set value explicitly
-                                            className=""
-                                            onChange={(e) => setRole(e.target.value)} // This will now set the role to "seller"
-                                        />
-                                    </div>
-                                    <div className="flex gap-4 py-4">
                                         <label htmlFor="buyer">Buyer</label>
                                         <input
                                             type="radio"
                                             name="role"
                                             value="buyer" // Set value explicitly
                                             className=""
-                                            onChange={(e) => setRole(e.target.value)} // This will now set the role to "buyer"
+                                            checked={formData.userType === "buyer"}
+                                            onChange={handleChange} // This will now set the role to "seller"
+                                        />
+                                    </div>
+                                    <div className="flex gap-4 py-4">
+                                        <label htmlFor="seller">Seller</label>
+                                        <input
+                                            type="radio"
+                                            name="role"
+                                            value="seller" // Set value explicitly
+                                            className=""
+                                            checked={formData.userType === "seller"}
+                                            onChange={handleChange} // This will now set the role to "buyer"
                                         />
                                     </div>
                                 </div>
