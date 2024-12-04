@@ -254,7 +254,7 @@ const Login = () => {
                                         <label htmlFor="buyer">Buyer</label>
                                         <input
                                             type="radio"
-                                            name="role"
+                                            name="userType"
                                             value="buyer" // Set value explicitly
                                             className=""
                                             checked={formData.userType === "buyer"}
@@ -265,7 +265,7 @@ const Login = () => {
                                         <label htmlFor="seller">Seller</label>
                                         <input
                                             type="radio"
-                                            name="role"
+                                            name="userType"
                                             value="seller" // Set value explicitly
                                             className=""
                                             checked={formData.userType === "seller"}
