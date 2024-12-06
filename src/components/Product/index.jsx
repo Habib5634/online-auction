@@ -4,10 +4,11 @@ import Navbar from '../Navbar'
 import Footer from '../Footer'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
 import BidModal from './BidModal'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import axios from 'axios'
 import { API_URL } from '@/utils/apiUrl'
 import useSingleCountdown from '@/hooks/useSingleCoundown'
+import { useSelector } from 'react-redux'
 
 const Product = () => {
 
@@ -17,8 +18,15 @@ const Product = () => {
     const { productId } = useParams()
     const [product, setProduct] = useState({})
     const timeLeft = useSingleCountdown(product?.endDate);
+    const { userData,isAuthenticated } = useSelector((state) => state.userData)
+    const router = useRouter()
     const handleOpenModal = () => {
-        setOpenProductModal(true)
+if(isAuthenticated){
+    setOpenProductModal(true)
+}else{
+    router.push('/login')
+}
+
 
     }
     const fetchProductById = async () => {

@@ -1,6 +1,8 @@
 'use client'
 
 import { addBidOnProduct } from "@/Store/Actions/userActions"
+import { useRouter } from "next/navigation"
+import { Router } from "next/router"
 import { useState } from "react"
 import toast from "react-hot-toast"
 import { useDispatch, useSelector } from "react-redux"
@@ -10,12 +12,18 @@ export const useCategories = ()=>{
     const [openProductmodal,setOpenProductModal] = useState(false)
     const [selectedProduct,setSelectedProduct] = useState(null)
     const [bidPrice, setBidPrice] = useState('');
+    const router = useRouter()
     const { isLoading, error, successMessage } = useSelector((state) => state.bids);
-    const { userData } = useSelector((state) => state.userData)
+    const { userData,isAuthenticated } = useSelector((state) => state.userData)
     const dispatch = useDispatch();
     const handleSelectProduct = (product) =>{
-        setSelectedProduct(product)
-        setOpenProductModal(true)
+if(isAuthenticated){
+    setSelectedProduct(product)
+    setOpenProductModal(true)
+}else{
+    router.push('/login')
+}
+
       }
    
     
@@ -35,7 +43,7 @@ export const useCategories = ()=>{
             try {
                 dispatch(addBidOnProduct({ productId: selectedProduct?._id, bidPrice }));
                 console.log(successMessage)
-                if (successMessage === 'Bid Added successfully') {
+                if (successMessage === 'Bid added successfully') {
                     toast.success(successMessage)
                     setBidPrice("")
                     setOpenProductModal(false)
