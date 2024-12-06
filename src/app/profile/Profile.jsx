@@ -40,7 +40,7 @@ const Profile = () => {
             <Navbar />
             <div className='  px-6 md:px-10 lg:px-16 h-full  min-h-[90vh]  w-full overflow-hidden'>
                 <div className='w-full max-w-[1440px] flex flex-col md:flex-row overflow-auto lg:overflow-hidden mx-auto shadow-shad mt-6 bg-bluegray h-[80vh]   rounded-2xl '>
-                    <div className='w-full md:w-1/3 h-fit md:h-full bg-purpledark rounded-2xl p-4'>
+                    <div className='w-full md:w-1/3 h-fit md:h-full overflow-y-auto bg-purpledark rounded-2xl p-4'>
                         <div className='flex flex-col gap-3 items-center'>
                             <img src="/assets/image.png" alt="user-profile" className='h-[200px] w-[200px] md:h-[250px] md:w-[250px] rounded-full bg-lightgray mx-auto' />
 
