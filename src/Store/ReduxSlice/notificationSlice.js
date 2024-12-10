@@ -22,7 +22,7 @@ export const markNotificationAsRead = createAsyncThunk(
     'notifications/markNotificationAsRead',
     async (notificationId, { rejectWithValue }) => {
         try {
-            await axios.put(`${API_URL}/user/notifications/mark-as-read/${notificationId}`,getAuthHeaders());
+            await axios.put(`${API_URL}/user/notifications/mark-as-read/${notificationId}`,{},getAuthHeaders());
             return notificationId;
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || "Error marking notification as read");
@@ -35,7 +35,7 @@ export const markAllNotificationsAsRead = createAsyncThunk(
     'notifications/markAllNotificationsAsRead',
     async (_, { rejectWithValue }) => {
         try {
-            await axios.put(`${API_URL}/user/notifications/mark-all-as-read`,getAuthHeaders());
+            await axios.put(`${API_URL}/user/notifications/mark-all-as-read`,{},getAuthHeaders());
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || "Error marking all notifications as read");
         }

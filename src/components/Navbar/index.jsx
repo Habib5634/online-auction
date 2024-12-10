@@ -8,6 +8,8 @@ import { IoCloseCircleSharp, IoLogoWhatsapp } from "react-icons/io5";
 import { useRouter } from 'next/navigation';
 import ProfileMenu from './ProfileMenu';
 import { fetchUserData } from '@/Store/Actions/userActions';
+import axios from 'axios';
+import { API_URL } from '@/utils/apiUrl';
 const Navbar = () => {
     const { scrollTrigger, scrollDirection } = useSelector((state) => state.scroll);
     const [showSidebar, setShowSidebar] = useState(false)
@@ -25,7 +27,13 @@ useEffect(() => {
     
 
     
-    
+    useEffect(()=>{
+        const handleAllEndedProducts=async()=>{
+            const {data}= await axios.post(`${API_URL}/user/end-all-auctions`)
+            console.log(data)
+        }
+        handleAllEndedProducts()
+    },[])
    
     useScrollTrigger()
     // Scroll to a specific section

@@ -24,23 +24,23 @@ const Notifications = () => {
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div>
-            <h2>Notifications</h2>
-            <button onClick={handleMarkAllAsRead}>Mark All as Read</button>
-            <ul>
+        <div className='w-full max-w-[1024px] mx-auto px-4 py-8 text-white'>
+            <h2 className='text-20 font-bold mb-4'>Notifications</h2>
+            <button className='text-purplelight mb-4' onClick={handleMarkAllAsRead}>Mark All as Read</button>
+            <div className='flex flex-col gap-4'>
                 {notifications.map((notif) => (
-                    <li key={notif._id}>
+                    <div key={notif._id} className={`${notif?.isRead? "bg-gray":"bg-purplelight"} p-3 rounded-2xl`}>
                         <div>
                             <strong>{notif.message}</strong>
-                            <p>From: {notif.senderId}</p>
+                            <p>From: {notif?.senderId?.fullName}</p>
                             <p>Status: {notif.isRead ? 'Read' : 'Unread'}</p>
                             {!notif.isRead && (
-                                <button onClick={() => handleMarkAsRead(notif._id)}>Mark as Read</button>
+                                <button className='text-purpledark' onClick={() => handleMarkAsRead(notif._id)}>Mark as Read</button>
                             )}
                         </div>
-                    </li>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };
