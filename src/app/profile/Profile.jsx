@@ -11,6 +11,7 @@ import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearAuth } from '@/Store/ReduxSlice/userSlice'
 import RecievedBids from './ProductBids'
+import Transaction from './Transaction'
 // import SubmittedApplications from './SubmittedApplications'
 
 const Profile = () => {
@@ -55,6 +56,7 @@ const Profile = () => {
                                     <button onClick={() => handleActiveTab('products')} className={` text-nowrap ${activeTab === 'products' ? 'text-purple font-bold border-b text-20' : 'text-lightgray text-18'}`}>My Products</button>
                                     <button onClick={() => handleActiveTab('new-product')} className={` text-nowrap ${activeTab === 'new-product' ? 'text-purple font-bold border-b text-20' : 'text-lightgray text-18'}`}>Add New Product</button>
                                     <button onClick={() => handleActiveTab('product-bids')} className={` text-nowrap ${activeTab === 'product-bids' ? 'text-purple font-bold border-b text-20' : 'text-lightgray text-18'}`}>Product Bids</button>
+                                    <button onClick={() => handleActiveTab('transactions')} className={` text-nowrap ${activeTab === 'transactions' ? 'text-purple font-bold border-b text-20' : 'text-lightgray text-18'}`}>Transactions</button>
                                 </>
                             )}
                             <button onClick={handleLogout} className={` text-nowrap text-lightgray text-18`}>Logout</button>
@@ -69,6 +71,7 @@ const Profile = () => {
                         {activeTab === 'products' && <MyProducts user={userData} />}
                         {activeTab === 'new-product' && <AddNewProduct user={userData} />}
                         {activeTab === 'product-bids' && <RecievedBids user={userData} />}
+                        {activeTab === 'transactions' && <Transaction user={userData} />}
 
                     </div>
 

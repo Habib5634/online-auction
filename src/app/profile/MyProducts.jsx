@@ -88,6 +88,7 @@ const MyProducts = () => {
   }
   const endDates = products?.map((product) => product.endDate);
   const countdowns = useCountdowns(endDates);
+
   return (
     <>
       <div className="w-full overflow-x-auto bg-gray-100 p-6 rounded-lg shadow-md">
@@ -123,7 +124,7 @@ const MyProducts = () => {
                   <td onClick={() => handleOpenProductDetailModal(product)} className="w-full max-w-[150px] text-nowrap overflow-hidden text-ellipsis border border-darkgray px-4 py-2">{product?.productCategory?.name}</td>
                   <td onClick={() => handleOpenProductDetailModal(product)} className="w-full max-w-[150px] text-nowrap overflow-hidden text-ellipsis border border-darkgray px-4 py-2">{product?.location}</td>
                   <td onClick={() => handleOpenProductDetailModal(product)} className="w-full max-w-[150px] text-nowrap overflow-hidden text-ellipsis border border-darkgray px-4 py-2">{product?.isOpen ? "Opened" : "Closed"}</td>
-                  <td onClick={() => handleOpenProductDetailModal(product)} className="w-full max-w-[150px] text-nowrap overflow-hidden text-ellipsis border border-darkgray px-4 py-2">{ product?.startDate
+                  <td onClick={() => handleOpenProductDetailModal(product)} className="w-full max-w-[150px] text-nowrap overflow-hidden text-ellipsis border border-darkgray px-4 py-2">{product?.startDate
                     ? new Date(product.startDate).toLocaleString('en-US', {
                       year: 'numeric',
                       month: 'long',
@@ -133,7 +134,7 @@ const MyProducts = () => {
                       hour12: true
                     })
                     : 'N/A'}</td>
-                  <td onClick={() => handleCloseProductDetailModal(product)} className="w-full max-w-[150px] text-nowrap overflow-hidden text-ellipsis border border-darkgray px-4 py-2"> {product?.isOpen ?timeLeft ? (
+                  <td onClick={() => handleCloseProductDetailModal(product)} className="w-full max-w-[150px] text-nowrap overflow-hidden text-ellipsis border border-darkgray px-4 py-2"> {product?.isOpen ? timeLeft ? (
                     <span>
                       {timeLeft.days > 0 && `${timeLeft.days}d `}
                       {timeLeft.hours > 0 && `${timeLeft.hours}h `}
@@ -141,12 +142,12 @@ const MyProducts = () => {
                     </span>
                   ) : (
                     "Ended"
-                  ):"Auction Closed"} </td>
+                  ) : "Auction Closed"} </td>
                   <td onClick={() => handleCloseProductDetailModal(product)} className="w-full max-w-[150px] text-nowrap overflow-hidden text-ellipsis border border-darkgray px-4 py-2">{product?.productType}</td>
-                  <td className="w-full max-w-[150px] text-nowrap overflow-hidden text-ellipsis border border-darkgray px-4 py-[18px]  flex items-center justify-center gap-2">{product?.isOpen ? 
-                  <>
-                    <MdEdit className="text-purple cursor-pointer" size={20} onClick={() => handleEditProduct(product)} /> <FaTrashAlt onClick={() => handleOpenConfirmationModal(product?._id)} className=" text-red cursor-pointer" size={20} />
-                  </>:"-"}
+                  <td className="w-full max-w-[150px] text-nowrap overflow-hidden text-ellipsis border border-darkgray px-4 py-[18px]  flex items-center justify-center gap-2">{product?.isOpen ?
+                    <>
+                      <MdEdit className="text-purple cursor-pointer" size={20} onClick={() => handleEditProduct(product)} /> <FaTrashAlt onClick={() => handleOpenConfirmationModal(product?._id)} className=" text-red cursor-pointer" size={20} />
+                    </> : "-"}
                   </td>
                 </tr>
               )
@@ -286,6 +287,18 @@ const ProductDeatilModal = ({ product, closeModal }) => {
             {timeLeft.hours > 0 && <span>{timeLeft.hours} hr(s) </span>}
             <span>{timeLeft.minutes} min(s) </span>
             <span>{timeLeft.seconds} sec(s)</span>
+          </div>
+        }
+        {product?.bidStatus === 'winner' &&
+          <div className="mt-4">
+            <h1>You are the <span className="font-semibold">WINNER</span> of this product</h1>
+            <p>this is the sellec account infrmation and please transfer the money and submit this </p>
+
+            <form action="">
+              <input type="text" name="amount" id="" className="py-2 px-4 rounded-md bg-transparent ring-1 ring-purpledark" />
+              <button>I have transferred the money</button>
+            </form>
+
           </div>
         }
         <IoMdCloseCircleOutline onClick={closeModal} size={25} className='absolute top-6 right-6 text-black' />

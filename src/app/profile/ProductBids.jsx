@@ -155,7 +155,7 @@ const BidDetailModal = ({handleCloseModel,selectedBid,handleUpdateStatus}) => {
         <p><strong>Experience:</strong> {selectedBid?.bidderId?.contact}</p>
         <p><strong>Contact:</strong> {selectedBid?.productId?.price}</p>
         <p><strong>Qualification:</strong> {selectedBid?.bidPrice}</p>
-        <p><strong>Qualification:</strong> {selectedBid?.bidStatus}</p>
+        <p><strong>Bid Status:</strong> {selectedBid?.bidStatus}</p>
         </div>
         {selectedBid?.bidStatus === "running" ? 
         <div className='flex justify-center items-center gap-4 mt-4'>
