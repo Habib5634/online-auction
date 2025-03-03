@@ -6,6 +6,7 @@ import { API_URL, getAuthHeaders } from "@/utils/apiUrl";
 import useCountdowns from "@/hooks/useCoundown";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import useSingleCountdown from "@/hooks/useSingleCoundown";
+import toast from "react-hot-toast";
 
 const MyProposals = () => {
 
@@ -93,15 +94,18 @@ const MyProposals = () => {
                     <td className="border border-darkgray text-nowrap overflow-hidden text-ellipsis px-4 py-2">{bid?.productId?.sellerId?.email}</td>
                     <td className="border border-darkgray text-nowrap overflow-hidden text-ellipsis px-4 py-2">{bid?.productId?.price}</td>
                     <td className="border border-darkgray text-nowrap overflow-hidden text-ellipsis px-4 py-2">{bid?.bidPrice}</td>
-                    <td className="border border-darkgray text-nowrap overflow-hidden text-ellipsis px-4 py-2">{timeLeft ? (
-                      <span>
-                        {timeLeft.days > 0 && `${timeLeft.days}d `}
-                        {timeLeft.hours > 0 && `${timeLeft.hours}h `}
-                        {timeLeft.minutes}m {timeLeft.seconds}s
-                      </span>
-                    ) : (
-                      "Ended"
-                    )}</td>
+                    <td className="border border-darkgray text-nowrap overflow-hidden text-ellipsis px-4 py-2">
+
+                      {(bid?.isOpen && timeLeft) ? (
+                        <span>
+                          {timeLeft.days > 0 && `${timeLeft.days}d `}
+                          {timeLeft.hours > 0 && `${timeLeft.hours}h `}
+                          {timeLeft.minutes}m {timeLeft.seconds}s
+                        </span>
+                      ) : (
+                        "Ended"
+                      )}
+                    </td>
                     <td
                       className={`border border-darkgray px-4 py-2 ${bid.bidStatus === "winner"
                         ? "text-green font-bold"
@@ -164,10 +168,13 @@ export default MyProposals;
 
 
 
-const ProposalDetailModal = ({selectedBid,closeModal,handleOpenConfirmationModal}) => {
- 
+const ProposalDetailModal = ({ selectedBid, closeModal, handleOpenConfirmationModal }) => {
+
   const [currentIndex, setCurrentIndex] = useState(0);
-  const timeLeft = useSingleCountdown(selectedBid?.productId?.endDate);
+  const timeLeft = (selectedBid?.bidStatus !== "winner" && selectedBid?.bidStatus !== "closed")
+    ? useSingleCountdown(selectedBid?.productId?.endDate)
+    : null;
+
 
   // Function to go to the next image
   const nextImage = () => {
@@ -180,11 +187,31 @@ const ProposalDetailModal = ({selectedBid,closeModal,handleOpenConfirmationModal
       prevIndex === 0 ? selectedBid?.productId?.images.length - 1 : prevIndex - 1
     );
   };
+
+  const handleConfirmPayment = async () => {
+    try {
+
+      const payload = {
+        sellerId: selectedBid.productId?.sellerId._id,
+        productId: selectedBid?.productId?._id,
+        amount: selectedBid?.bidPrice
+      }
+      const response = await axios.post(`${API_URL}/user/transactions`, payload, getAuthHeaders())
+      console.log(response)
+      if(response.status=== 201){
+        toast.success("You have confirmed please wait for seller confirmation")
+        closeModal()
+      }
+    } catch (error) {
+      console.log(error)
+      closeModal()
+    }
+  }
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-    <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 md:w-1/2 relative ">
-      <h3 className="text-xl font-bold mb-4">Bid Details</h3>
-      <div className="relative w-full max-w-md mx-auto">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 md:w-1/2 relative ">
+        <h3 className="text-xl font-bold mb-4">Bid Details</h3>
+        <div className="relative w-full max-w-md mx-auto">
           {/* Image */}
           <div className="w-full h-64">
             <img
@@ -220,44 +247,59 @@ const ProposalDetailModal = ({selectedBid,closeModal,handleOpenConfirmationModal
             ))}
           </div>
         </div>
-        <p><strong>Product Name:</strong> {selectedBid?.productId?.productName}</p>
-        <p><strong>Product Company:</strong> {selectedBid?.productId?.productCompany}</p>
-        <p><strong>Product Proce:</strong> {selectedBid?.productId?.price}</p>
-        <p><strong>Product Category:</strong> {selectedBid?.productCategory?.name}</p>
-        <p><strong>Location:</strong> {selectedBid?.productId?.location}</p>
-        <p><strong>Product Status:</strong> {selectedBid?.bidStatus ? "Opened" : "Closed"}</p>
-        <p><strong>Auction Start Date and Time:</strong> {selectedBid?.productId?.startDate
-          ? new Date(selectedBid.productId?.startDate).toLocaleString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true
-          })
-          : 'N/A'}</p>
-        <p><strong>Auction End Date and Time:</strong> {selectedBid?.productId?.endDate
-          ? new Date(selectedBid.productId?.endDate).toLocaleString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true
-          })
-          : 'N/A'}</p>
-        {!timeLeft ? "Auction Ended" :
-          <div>
-            {timeLeft.days > 0 && <span>{timeLeft.days} day(s) </span>}
-            {timeLeft.hours > 0 && <span>{timeLeft.hours} hr(s) </span>}
-            <span>{timeLeft.minutes} min(s) </span>
-            <span>{timeLeft.seconds} sec(s)</span>
+        <div className="w-full max-w-md mx-auto ">
+
+          <p className="flex justify-between items-center"><strong>Product Name:</strong> {selectedBid?.productId?.productName}</p>
+          <p className="flex justify-between items-center"><strong>Product Company:</strong> {selectedBid?.productId?.productCompany}</p>
+          <p className="flex justify-between items-center"><strong>Product Proce:</strong> {selectedBid?.productId?.price}</p>
+          <p className="flex justify-between items-center"><strong>Location:</strong> {selectedBid?.productId?.location}</p>
+          <p className="flex justify-between items-center"><strong>Product Status:</strong> {selectedBid?.bidStatus ? "Opened" : "Closed"}</p>
+          <p className="flex justify-between items-center"><strong>Auction Start Date and Time:</strong> {selectedBid?.productId?.startDate
+            ? new Date(selectedBid.productId?.startDate).toLocaleString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: true
+            })
+            : 'N/A'}</p>
+          <p className="flex justify-between items-center"><strong>Auction End Date and Time:</strong> {selectedBid?.productId?.endDate
+            ? new Date(selectedBid.productId?.endDate).toLocaleString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: true
+            })
+            : 'N/A'}</p>
+          {timeLeft ? (
+            <div className="text-center w-full">
+              {timeLeft.days > 0 && <span>{timeLeft.days} day(s) </span>}
+              {timeLeft.hours > 0 && <span>{timeLeft.hours} hr(s) </span>}
+              <span>{timeLeft.minutes} min(s) </span>
+              <span>{timeLeft.seconds} sec(s)</span>
+            </div>
+          ) : (
+            "Auction Ended"
+          )}
+        </div>
+
+        {selectedBid.bidStatus === 'winner' &&
+          <div className="flex flex-col">
+            <h1 className="font-bold mb-4">You are the winner of this bid</h1>
+            <p>Please contact seller and send the payment</p>
+
+            <h4 className="mt-6">I have sended the payment</h4>
+            <button className="py-2 px-4 rounde-lg bg-green text-white mt-4" onClick={handleConfirmPayment}>Confirm</button>
           </div>
         }
-   
-      <IoMdCloseCircleOutline onClick={closeModal} size={25} className='absolute top-6 right-6 text-black' />
+
+
+        <IoMdCloseCircleOutline onClick={closeModal} size={25} className='absolute top-6 right-6 text-black' />
+      </div>
     </div>
-  </div>
   )
 }
 

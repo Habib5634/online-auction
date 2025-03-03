@@ -42,7 +42,7 @@ const Login = () => {
         address: "",
         gender: "",
         contact: "",
-        emailCode:"",
+        emailCode: "",
         userType: "buyer",
         answer: "",
     });
@@ -87,26 +87,30 @@ const Login = () => {
                 case MODE.REGISTER:
                     response = await axios.post(`${API_URL}/auth/register`, formData);
                     console.log(response)
-                    if(response.status === 201){
+                    if (response.status === 201) {
                         toast.success("Registered Successfully")
                         setMode(MODE.LOGIN)
                         console.log("FormData Data:", formData);
-                    }else{
+                    } else {
                         toast.error("Something went wrong")
                     }
                     break;
                 case MODE.LOGIN:
-                    response = await axios.post(`${API_URL}/auth/login`, {email:formData.email,password:formData.password});
-                    console.log(response)
-                    if(response.status === 200){
-                        localStorage.setItem('token',response.data.token)
+                    response = await axios.post(`${API_URL}/auth/login`, { email: formData.email, password: formData.password });
+
+                    if (response.status === 200) {
+                        localStorage.setItem('token', response.data.token)
+                        if (response?.data?.user?.userType === "admin") {
+                            router.push('/admin-dashboard')
+                        } else {
+                            router.push('/')
+                        }
                         toast.success("Login Successfully")
-                        router.push('/')
-                    }else{
+                    } else {
                         toast.error("Something went wrong")
                     }
-                    console.log(response)
-                    localStorage.setItem("token", response.data.token)
+
+
                     break;
                 case MODE.RESET_PASSWORD:
                     //   response = await axios.post(`${BASE_URL}/user/reset-password`, { email, emailCode, password });
