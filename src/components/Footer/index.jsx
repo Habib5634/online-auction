@@ -1,13 +1,32 @@
+'use client'
+
 import React from 'react'
 import { FaFacebookF, FaTwitter, FaLinkedin, FaYoutube, FaPhone } from "react-icons/fa";
 import { MdMailOutline } from "react-icons/md";
 
 import { IoLocationSharp } from "react-icons/io5";
 import { IoMdArrowDropright } from "react-icons/io";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
-
+ 
 
 const Footer = () => {
+    const router = useRouter()
+    const scrollToSection = (id) => {
+        const element = document.getElementById(id);
+        if (element) {
+            // Scroll to the section if it exists
+            element.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            // Redirect the user to the "Home" page
+            router.push('/');
+
+        }
+        // Close the sidebar after scrolling
+       
+    };
     return (
         <>
             <div className=' bg-purplelight w-full'>
@@ -15,26 +34,34 @@ const Footer = () => {
                     <h1 className='text-2xl xl:text-3xl uppercase font-semibold text-white'>Subscribe to the auction </h1>
                     <div className='flex items-center'>
                         <input type="email" name="email" className='py-[8.5px] px-4 ' placeholder='Email Address' />
-                        <button className='uppercase text-white bg-purpledark  py-2 px-4'>Subscribe</button>
+                        <button className='uppercase text-white bg-purpledark  py-2 px-4' onClick={()=>toast?.success('Successfuly subscribed')}>Subscribe</button>
 
                     </div>
                     <div className='flex gap-2 items-center justify-start md:justify-center'>
+                    <Link href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
                         <div className='h-14 w-14 border border-gray hover:bg-purple anim3 cursor-pointer flex justify-center items-center'>
                             <FaFacebookF className='text-white' size={22} />
 
                         </div>
+                    </Link>
+                    <Link href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
                         <div className='h-14 w-14 border border-gray hover:bg-purple anim3 cursor-pointer flex justify-center items-center'>
                             <FaTwitter className='text-white' size={22} />
 
                         </div>
+                    </Link>
+                    <Link href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
                         <div className='h-14 w-14 border border-gray hover:bg-purple anim3 cursor-pointer flex justify-center items-center'>
                             <FaLinkedin className='text-white' size={22} />
 
                         </div>
+                    </Link>
+                    <Link href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
                         <div className='h-14 w-14 border border-gray hover:bg-purple anim3 cursor-pointer flex justify-center items-center'>
                             <FaYoutube className='text-white' size={22} />
 
                         </div>
+                    </Link>
                     </div>
 
 
@@ -58,13 +85,13 @@ const Footer = () => {
                                 <div className='h-10 w-10 border border-gray hover:bg-purple anim3 cursor-pointer flex justify-center items-center'>
                                     <FaPhone className='text-white' size={16} />
                                 </div>
-                                <p className='text-lightgray'>+92-313-5634-882 </p>
+                                <p className='text-lightgray'>+92-311-7884-010 </p>
                             </div>
                             <div className='flex items-center gap-4'>
                                 <div className='h-10 w-10 border border-gray hover:bg-purple anim3 cursor-pointer flex justify-center items-center'>
                                     <MdMailOutline className='text-white' size={16} />
                                 </div>
-                                <p className='text-lightgray'>habib.dev3@gmail.com</p>
+                                <p className='text-lightgray'>hm79113926@gmail.com</p>
                             </div>
 
                         </div>
@@ -73,19 +100,19 @@ const Footer = () => {
                     <div className='flex flex-col gap-14'>
                         <h1 className='text-2xl font-bold text-white uppercase'>Featured Links</h1>
                         <div className='flex flex-col gap-4 items-start'>
-                            <div className='flex items-center gap-4 text-lightgray'>
+                            <div onClick={() => scrollToSection('about')} className='flex items-center gap-4 text-lightgray'>
                                 <IoMdArrowDropright />
                                 <p className='text-lightgray header-link '>About us </p>
                             </div>
-                            <div className='flex items-center gap-4 text-lightgray'>
+                            <div onClick={() => scrollToSection('auctions')} className='flex items-center gap-4 text-lightgray'>
                                 <IoMdArrowDropright />
                                 <p className='text-lightgray header-link'>Live Auctions </p>
                             </div>
-                            <div className='flex items-center gap-4 text-lightgray'>
+                            <div onClick={() => scrollToSection('category')} className='flex items-center gap-4 text-lightgray'>
                                 <IoMdArrowDropright />
                                 <p className='text-lightgray header-link'>Categories</p>
                             </div>
-                            <div className='flex items-center gap-4 text-lightgray'>
+                            <div onClick={() => scrollToSection('faqs')} className='flex items-center gap-4 text-lightgray'>
                                 <IoMdArrowDropright />
                                 <p className='text-lightgray header-link'>Faqs</p>
                             </div>

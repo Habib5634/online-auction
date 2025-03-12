@@ -154,6 +154,7 @@ const Login = () => {
                                     value={formData?.userName}
                                     className="ring-2 ring-purple rounded-md p-4"
                                     onChange={handleChange}
+                                    required
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
@@ -165,6 +166,7 @@ const Login = () => {
                                     value={formData?.fullName}
                                     className="ring-2 ring-purple rounded-md p-4"
                                     onChange={handleChange}
+                                    required
                                 />
                             </div>
                         </>
@@ -180,6 +182,7 @@ const Login = () => {
                                 value={formData?.email}
                                 className="ring-2 ring-purple rounded-md p-4"
                                 onChange={handleChange}
+                                required
                             />
                         </div>
                     ) : (
@@ -192,6 +195,7 @@ const Login = () => {
                                 value={formData?.emailCode}
                                 className="ring-2 ring-purple rounded-md p-4"
                                 onChange={handleChange}
+                                required
                             />
                         </div>
                     )}
@@ -206,6 +210,7 @@ const Login = () => {
                                     placeholder="Enter your password"
                                     className="ring-2 ring-purple rounded-md p-4"
                                     onChange={handleChange}
+                                    required
                                 />
                             </div>
 
@@ -222,17 +227,19 @@ const Login = () => {
                                     value={formData?.address}
                                     className="ring-2 ring-purple rounded-md p-4"
                                     onChange={handleChange}
+                                    required
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
                                 <label className="text-18 text-purpledark ">Contact</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     name="contact"
                                     placeholder="Enter your Contact"
                                     value={formData?.contact}
                                     className="ring-2 ring-purple rounded-md p-4"
                                     onChange={handleChange}
+                                    required
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
@@ -253,9 +260,9 @@ const Login = () => {
                             </div>
                             <div className="flex flex-col gap-2">
                                 <label className="text-18 text-purpledark">Role</label>
-                                <div className="flex gap-5 items-center">
-                                    <div className="flex gap-4 py-4">
-                                        <label htmlFor="buyer">Buyer</label>
+                                <div className="flex gap-5 flex-col items-start">
+                                    <div className="flex gap-4 ">
+                                        <label htmlFor="buyer" className='font-bold'>Buyer</label>
                                         <input
                                             type="radio"
                                             name="userType"
@@ -265,8 +272,8 @@ const Login = () => {
                                             onChange={handleChange} // This will now set the role to "seller"
                                         />
                                     </div>
-                                    <div className="flex gap-4 py-4">
-                                        <label htmlFor="seller">Seller</label>
+                                    <div className="flex gap-4">
+                                        <label htmlFor="seller" className='font-bold'>Seller</label>
                                         <input
                                             type="radio"
                                             name="userType"

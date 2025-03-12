@@ -205,8 +205,10 @@ const ProposalDetailModal = ({ selectedBid, closeModal, handleOpenConfirmationMo
     } catch (error) {
       console.log(error)
       closeModal()
+      toast?.error(error?.response?.data?.message)
     }
   }
+  console.log(selectedBid)
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 md:w-1/2 relative ">
@@ -287,9 +289,13 @@ const ProposalDetailModal = ({ selectedBid, closeModal, handleOpenConfirmationMo
         </div>
 
         {selectedBid.bidStatus === 'winner' &&
-          <div className="flex flex-col">
+          <div className="flex flex-col mx-auto">
             <h1 className="font-bold mb-4">You are the winner of this bid</h1>
-            <p>Please contact seller and send the payment</p>
+            <p>Seller Payment Details</p>
+            <p className="flex justify-between items-center"><strong>Account Title:</strong> {selectedBid?.productId?.sellerId?.fullName}</p>
+            <p className="flex justify-between items-center"><strong>Bank Name:</strong> Alfalah Bank</p>
+            <p className="flex justify-between items-center"><strong>Account No:</strong> 200724689282957</p>
+            <p className="flex justify-between items-center"><strong>IBAN No:</strong> 839200724689282957</p>
 
             <h4 className="mt-6">I have sended the payment</h4>
             <button className="py-2 px-4 rounde-lg bg-green text-white mt-4" onClick={handleConfirmPayment}>Confirm</button>
